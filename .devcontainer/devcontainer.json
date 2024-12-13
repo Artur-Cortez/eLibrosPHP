@@ -1,0 +1,13 @@
+{
+  "name": "eLibrosPHP Dev Container",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "web",
+  "workspaceFolder": "/workspace",
+  "extensions": [
+    "ms-azuretools.vscode-docker"
+  ],
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+  "forwardPorts": [80, 3306, 5900]
+}
