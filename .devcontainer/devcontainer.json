@@ -2,7 +2,7 @@
   "name": "eLibrosPHP Dev Container",
   "dockerComposeFile": "docker-compose.yml",
   "service": "web",
-  "workspaceFolder": "/workspace",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "extensions": [
     "ms-azuretools.vscode-docker"
   ],
