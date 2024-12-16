@@ -3,9 +3,7 @@ services:
   web:
     build: .
     container_name: apache2_server
-    ports:
-      - "80:80"
-      - "5900:5900"
+    network_mode: service:db
     volumes:
       - ../:/var/www/html
 
@@ -17,8 +15,6 @@ services:
       MYSQL_DATABASE: eLibrosDB
       MYSQL_USER: matue
       MYSQL_PASSWORD: matueDB
-    ports:
-      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
 
