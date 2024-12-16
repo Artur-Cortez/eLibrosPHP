@@ -4,10 +4,7 @@
   "service": "web",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "extensions": [
-    "ms-azuretools.vscode-docker"
+    "github.copilot"
   ],
-  "settings": {
-    "terminal.integrated.defaultProfile.linux": "bash"
-  },
-  "forwardPorts": [80, 3306, 5900]
+  "forwardPorts": [80, 3306]
 }
