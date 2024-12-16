@@ -1,22 +1,35 @@
-version: '3'
-services:
-  web:
-    build: .
-    container_name: apache2_server
-    network_mode: service:db
+services: 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
     volumes:
-      - ../:/var/www/html
+      - ../..:/workspaces:cached
+      - /workspaces/eLibrosPHP:/var/www/html:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    network_mode: service:db
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
 
   db:
-    image: mariadb:latest
-    container_name: mariadb_server
-    environment:
-      MYSQL_ROOT_PASSWORD: matueRootDB
-      MYSQL_DATABASE: eLibrosDB
-      MYSQL_USER: matue
-      MYSQL_PASSWORD: matueDB
+    image: mariadb:10.4
+    restart: unless-stopped
     volumes:
-      - db_data:/var/lib/mysql
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: mariadb
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
 
+    # Add "forwardPorts": ["3306"] to **devcontainer.json** to forward MariaDB locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+  
 volumes:
-  db_data:
+  mariadb-data:
