@@ -19,7 +19,21 @@
 	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html",
+	
+	//sudo chmod a+x "$(pwd)":
+
+	// sudo: Runs the command with superuser privileges.
+	// chmod a+x "$(pwd)": Changes the permissions of the current working directory (retrieved by $(pwd)) to make it executable by all users.
+	// sudo rm -rf /var/www/html:
+
+	// sudo: Runs the command with superuser privileges.
+	// rm -rf /var/www/html: Recursively removes the html directory and its contents.
+	// sudo ln -s "$(pwd)" /var/www/html:
+
+	// sudo: Runs the command with superuser privileges.
+	// ln -s "$(pwd)" /var/www/html: Creates a symbolic link from the current working directory (retrieved by $(pwd)) to html.
+	
 
 	// Configure tool-specific properties.
 	"customizations": {
