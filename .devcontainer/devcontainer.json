@@ -9,9 +9,9 @@
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
-	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
+
 	"forwardPorts": [
-		8080,
+		80,
 		3306
 	],
 	"features": {
@@ -19,27 +19,21 @@
 	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html",
-	
-	//sudo chmod a+x "$(pwd)":
-
-	// sudo: Runs the command with superuser privileges.
-	// chmod a+x "$(pwd)": Changes the permissions of the current working directory (retrieved by $(pwd)) to make it executable by all users.
-	// sudo rm -rf /var/www/html:
-
-	// sudo: Runs the command with superuser privileges.
-	// rm -rf /var/www/html: Recursively removes the html directory and its contents.
-	// sudo ln -s "$(pwd)" /var/www/html:
-
-	// sudo: Runs the command with superuser privileges.
-	// ln -s "$(pwd)" /var/www/html: Creates a symbolic link from the current working directory (retrieved by $(pwd)) to html.
-	
+	"postCreateCommand": [
+		"mkdir -p confs-apache2 site-frontend site-backend",
+		"sudo chmod a+x \"$(pwd)\"",
+		"mv eLibros.com.br site-frontend/",
+		"mv eLibros.backend.biz site-backend/",
+		"sudo ln -s \"$(pwd)\" /var/www/html",
+		"sudo ln -s /etc/apache2/* \"$(pwd)\"/confs-apache2/"
+	],
 
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"github.copilot"
+				"github.copilot",
+				"ms-vsliveshare.vsliveshare"
 			]
 		}
   },
