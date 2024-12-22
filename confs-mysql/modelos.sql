@@ -8,8 +8,8 @@ CREATE TABLE usuario (
     genero ENUM('F', 'M', 'NB', 'PND', 'NI') DEFAULT 'NI',
     data_de_nascimento DATE,
     telefone VARCHAR(15),
-    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
-    username VARCHAR(20) UNIQUE NOT NULL,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    username VARCHAR(20) UNIQUE NOT NULL
 );
 
 CREATE TABLE administrador (
@@ -173,13 +173,13 @@ CREATE TABLE livro_genero_literario_historico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     livro_id INT NOT NULL,
     genero_id INT NOT NULL,
+    id_usuario INT NOT NULL,
     tipo_alteracao ENUM('1', '2', '3') NOT NULL,
     detalhes TEXT,
     data_alteracao DATETIME NOT NULL,
-    id_usuario INT NOT NULL,
-    CONSTRAINT fk_livro_genero_historico_livro FOREIGN KEY (livro_id) REFERENCES livro(id) ON DELETE CASCADE,
-    CONSTRAINT fk_livro_genero_historico_genero FOREIGN KEY (genero_id) REFERENCES genero_literario(id) ON DELETE CASCADE,
-    CONSTRAINT fk_livro_genero_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+    CONSTRAINT fk_livro_genero_literario_historico_livro FOREIGN KEY (livro_id) REFERENCES livro(id) ON DELETE CASCADE,
+    CONSTRAINT fk_livro_genero_literario_historico_genero FOREIGN KEY (genero_id) REFERENCES genero_literario(id) ON DELETE CASCADE,
+    CONSTRAINT fk_livro_genero_literario_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
 
