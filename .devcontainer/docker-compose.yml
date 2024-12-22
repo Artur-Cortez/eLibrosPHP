@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
 
     volumes:
+    # Bind mount the source so that changes in the workspace are immediately reflected in the container.
       - ../..:/workspaces:cached
 
 
@@ -21,7 +22,11 @@ services:
     image: mariadb:10.4
     restart: unless-stopped
     volumes:
+    # Named volume for persisting database data.
       - mariadb-data:/var/lib/mysql
+      
+    # Bind mount to init database.
+      - ../confs-mysql/dumps:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: mariadb
       MYSQL_DATABASE: mariadb
