@@ -25,7 +25,8 @@
 		"mv eLibros.com.br site-frontend/",
 		"mv eLibros.backend.biz site-backend/",
 		"sudo ln -s \"$(pwd)\" /var/www/html",
-		"sudo ln -s /etc/apache2/* \"$(pwd)\"/confs-apache2/"
+		"sudo ln -s /etc/apache2/* \"$(pwd)\"/confs-apache2/",
+		"chmod +x confs-mysql/backup-db.sh"
 	],
 
 	// Configure tool-specific properties.
