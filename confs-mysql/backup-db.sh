@@ -1,0 +1,1 @@
+mysqldump -h db -u mariadb -pmariadb mariadb > /workspaces/eLibrosPHP/confs-mysql/dumps/mariadb_dump.sql
