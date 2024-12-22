@@ -10,7 +10,6 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 RUN mkdir -p /var/www/html/eLibrosPHP/site-frontend \
     && mkdir -p /var/www/html/eLibrosPHP/site-backend \
-    && mkdir -p /etc/apache2/sites-available \
     && a2enmod rewrite
 
 # [Optional] Uncomment this section to install additional OS packages.
