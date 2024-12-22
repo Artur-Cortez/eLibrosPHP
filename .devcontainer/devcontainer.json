@@ -20,7 +20,6 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": [
-		"mkdir -p confs-apache2/sites-available",
 		"cp confs-apache2/sites-available/*.conf /etc/apache2/sites-available/",
 		"a2ensite 000-default.conf eLibros.com.br.conf eLibros.backend.biz.conf",
 		"chmod +x confs-mysql/backup-db.sh",
