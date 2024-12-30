@@ -4,12 +4,8 @@
 	"name": "PHP & MariaDB",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
+	
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-
 	"forwardPorts": [
 		80,
 		3306
@@ -19,12 +15,7 @@
 	},
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": [
-		"cp confs-apache2/sites-available/*.conf /etc/apache2/sites-available/",
-		"a2ensite 000-default.conf eLibros.com.br.conf eLibros.backend.biz.conf",
-		"chmod +x confs-mysql/backup-db.sh",
-		"sudo service apache2 restart"
-	],
+	"postCreateCommand": "cp -R \"$(pwd)\"/confs-apache2/* /etc/apache2/ && cp -R \"$(pwd)\"/site-frontend/ /var/www/html/eLibrosPHP/eLibros.com.br && cp -R \"$(pwd)\"/site-backend/ /var/www/html/eLibrosPHP/eLibros.backend.biz && service apache2 restart && chmod +x confs-mysql/backup-db.sh",
 
 	// Configure tool-specific properties.
 	"customizations": {

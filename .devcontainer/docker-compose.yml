@@ -7,9 +7,8 @@ services:
     volumes:
     # Bind mount the source so that changes in the workspace are immediately reflected in the container.
       - ../..:/workspaces:cached
-      - ../confs-apache2/sites-available:/etc/apache2/sites-available
-      - ../site-backend:/var/www/html/eLibrosPHP/site-backend
       - ../site-frontend:/var/www/html/eLibrosPHP/site-frontend
+      - ../site-backend:/var/www/html/eLibrosPHP/site-backend
 
 
     # Overrides default command so things don't shut down after the process ends.

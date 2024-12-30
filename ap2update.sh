@@ -1,0 +1,1 @@
+cp -r ./confs-apache2/* /etc/apache2/
