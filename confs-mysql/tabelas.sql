@@ -57,15 +57,20 @@ CREATE TABLE livro (
     qtd_vendidos INT DEFAULT 0
 );
 
-CREATE TABLE livro_historico (
+CREATE TABLE historico (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    livro_id INT NOT NULL,
     tipo_alteracao ENUM('1', '2', '3') NOT NULL,
     detalhes TEXT,
     data_alteracao DATETIME NOT NULL,
     id_usuario INT NOT NULL,
-    CONSTRAINT fk_livro_historico_livro FOREIGN KEY (livro_id) REFERENCES livro(id) ON DELETE CASCADE,
-    CONSTRAINT fk_livro_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+)
+
+CREATE TABLE livro_historico (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    livro_id INT NOT NULL,
+    historico_id INT NOT NULL,
+    CONSTRAINT fk_livro_historico_historico FOREIGN KEY (historico_id) REFERENCES historico(id) ON DELETE CASCADE,
+    CONSTRAINT fk_livro_historico_livro FOREIGN KEY (livro_id) REFERENCES livro(id) ON DELETE CASCADE
 );
 
 CREATE TABLE autor (
@@ -77,12 +82,9 @@ CREATE TABLE autor (
 CREATE TABLE autor_historico(
     id INT AUTO_INCREMENT PRIMARY KEY,
     autor_id INT NOT NULL,
-    tipo_alteracao ENUM('1', '2', '3') NOT NULL,
-    detalhes TEXT,
-    data_alteracao DATETIME NOT NULL,
-    id_usuario INT NOT NULL,
+    historico_id INT NOT NULL,
     CONSTRAINT fk_autor_historico_autor FOREIGN KEY (autor_id) REFERENCES autor(id) ON DELETE CASCADE,
-    CONSTRAINT fk_autor_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+    CONSTRAINT fk_autor_historico_historico FOREIGN KEY (historico_id) REFERENCES historico(id) ON DELETE CASCADE,
 );
 
 CREATE TABLE livro_autor (
@@ -98,13 +100,10 @@ CREATE TABLE livro_autor_historico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     livro_id INT NOT NULL,
     autor_id INT NOT NULL,
-    tipo_alteracao ENUM('1', '2', '3') NOT NULL,
-    detalhes TEXT,
-    data_alteracao DATETIME NOT NULL,
-    id_usuario INT NOT NULL,
+    historico_id INT NOT NULL,
     CONSTRAINT fk_livro_autor_historico_livro FOREIGN KEY (livro_id) REFERENCES livro(id) ON DELETE CASCADE,
     CONSTRAINT fk_livro_autor_historico_autor FOREIGN KEY (autor_id) REFERENCES autor(id) ON DELETE CASCADE,
-    CONSTRAINT fk_livro_autor_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+    CONSTRAINT fk_livro_historico_historico FOREIGN KEY (historico_id) REFERENCES historico(id) ON DELETE CASCADE
 );
 
 CREATE TABLE categoria (
@@ -115,12 +114,9 @@ CREATE TABLE categoria (
 CREATE TABLE categoria_historico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     categoria_id INT NOT NULL,
-    tipo_alteracao ENUM('1', '2', '3') NOT NULL,
-    detalhes TEXT,
-    data_alteracao DATETIME NOT NULL,
-    id_usuario INT NOT NULL,
+    historico_id INT NOT NULL,
     CONSTRAINT fk_categoria_historico_categoria FOREIGN KEY (categoria_id) REFERENCES categoria(id) ON DELETE CASCADE,
-    CONSTRAINT fk_categoria_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+    CONSTRAINT fk_categoria_historico_historico FOREIGN KEY (historico_id) REFERENCES historico(id) ON DELETE CASCADE
 );
 
 CREATE TABLE livro_categoria (
@@ -135,13 +131,10 @@ CREATE TABLE livro_categoria_historico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     livro_id INT NOT NULL,
     categoria_id INT NOT NULL,
-    tipo_alteracao ENUM('1', '2', '3') NOT NULL,
-    detalhes TEXT,
-    data_alteracao DATETIME NOT NULL,
-    id_usuario INT NOT NULL,
+    historico_id INT NOT NULL,
     CONSTRAINT fk_livro_categoria_historico_livro FOREIGN KEY (livro_id) REFERENCES livro(id) ON DELETE CASCADE,
     CONSTRAINT fk_livro_categoria_historico_categoria FOREIGN KEY (categoria_id) REFERENCES categoria(id) ON DELETE CASCADE,
-    CONSTRAINT fk_livro_categoria_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+    CONSTRAINT fk_categoria_historico_historico FOREIGN KEY (historico_id) REFERENCES historico(id) ON DELETE CASCADE
 );
 
 CREATE TABLE genero_literario (
@@ -152,12 +145,10 @@ CREATE TABLE genero_literario (
 CREATE TABLE genero_literario_historico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     genero_id INT NOT NULL,
-    tipo_alteracao ENUM('1', '2', '3') NOT NULL,
-    detalhes TEXT,
-    data_alteracao DATETIME NOT NULL,
-    id_usuario INT NOT NULL,
+    historico_id INT NOT NULL,
     CONSTRAINT fk_genero_literario_historico_genero FOREIGN KEY (genero_id) REFERENCES genero_literario(id) ON DELETE CASCADE,
-    CONSTRAINT fk_genero_literario_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+    CONSTRAINT fk_genero_historico_historico FOREIGN KEY (historico_id) REFERENCES historico(id) ON DELETE CASCADE
+
 );
 
 CREATE TABLE livro_genero (
@@ -172,13 +163,10 @@ CREATE TABLE livro_genero_literario_historico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     livro_id INT NOT NULL,
     genero_id INT NOT NULL,
-    id_usuario INT NOT NULL,
-    tipo_alteracao ENUM('1', '2', '3') NOT NULL,
-    detalhes TEXT,
-    data_alteracao DATETIME NOT NULL,
+    historico_id INT NOT NULL,
     CONSTRAINT fk_livro_genero_literario_historico_livro FOREIGN KEY (livro_id) REFERENCES livro(id) ON DELETE CASCADE,
     CONSTRAINT fk_livro_genero_literario_historico_genero FOREIGN KEY (genero_id) REFERENCES genero_literario(id) ON DELETE CASCADE,
-    CONSTRAINT fk_livro_genero_literario_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+  
 );
 
 
@@ -226,12 +214,9 @@ CREATE TABLE cupom (
 CREATE TABLE cupom_historico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     cupom_id INT NOT NULL,
-    tipo_alteracao ENUM('1', '2', '3') NOT NULL,
-    detalhes TEXT,
-    data_alteracao DATETIME NOT NULL,
-    id_usuario INT NOT NULL,
+    historico_id INT NOT NULL,
     CONSTRAINT fk_cupom_historico_cupom FOREIGN KEY (cupom_id) REFERENCES cupom(id) ON DELETE CASCADE,
-    CONSTRAINT fk_cupom_historico_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+    CONSTRAINT fk_cupom_historico_historico FOREIGN KEY (historico_id) REFERENCES historico(id) ON DELETE CASCADE
 );
 
 CREATE TABLE item_carrinho (
