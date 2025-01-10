@@ -2,20 +2,20 @@ CREATE TABLE usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
     email VARCHAR(100) UNIQUE NOT NULL,
-    senha VARCHAR(100) NOT NULL,
+    senha VARCHAR(63) NOT NULL,
     CPF VARCHAR(11) UNIQUE,
     foto_de_perfil VARCHAR(255),
     genero ENUM('F', 'M', 'NB', 'PND', 'NI') DEFAULT 'NI',
     data_de_nascimento DATE,
     telefone VARCHAR(15),
     criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
-    username VARCHAR(20) UNIQUE NOT NULL
+    username VARCHAR(20) UNIQUE
 );
 
 CREATE TABLE administrador (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
-    tipo ENUM('ADM', 'FUN') DEFAULT 'ADM',
+    tipo ENUM('ADM', 'FUN') DEFAULT 'ADM' NOT NULL,
     rg VARCHAR(9),
     CONSTRAINT fk_administrador_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
