@@ -28,8 +28,7 @@ CREATE TABLE endereco (
     bairro VARCHAR(50) NOT NULL,
     rua VARCHAR(100) NOT NULL,
     numero INT NOT NULL,
-    complemento VARCHAR(30),
-    identificacao VARCHAR(30) DEFAULT 'Endereço'
+    complemento VARCHAR(30)
     -- criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
     -- atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP
 );
