@@ -56,13 +56,14 @@ CREATE TABLE livro (
     quantidade INT NOT NULL,
     qtd_vendidos INT DEFAULT 0
 );
-
+-- tipo: criar, editar e deletar
 CREATE TABLE historico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tipo_alteracao ENUM('1', '2', '3') NOT NULL,
     detalhes TEXT,
     data_alteracao DATETIME NOT NULL,
-    id_usuario INT NOT NULL,
+    id_administrador INT NOT NULL,
+    CONSTRAINT fk_historico_administrador FOREIGN KEY (id_administrador) REFERENCES administrador(id) ON DELETE CASCADE
 )
 
 CREATE TABLE livro_historico (
@@ -75,8 +76,7 @@ CREATE TABLE livro_historico (
 
 CREATE TABLE autor (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,
-    CONSTRAINT fk_autor_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
+    nome VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE autor_historico(
