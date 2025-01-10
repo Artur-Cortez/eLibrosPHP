@@ -16,6 +16,9 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "cp -R \"$(pwd)\"/confs-apache2/* /etc/apache2/ && cp -R \"$(pwd)\"/site-frontend/ /var/www/html/eLibrosPHP/eLibros.com.br && cp -R \"$(pwd)\"/site-backend/ /var/www/html/eLibrosPHP/eLibros.backend.biz && service apache2 restart && chmod +x confs-mysql/backup-db.sh",
+	"postAttachCommand": {
+		"makePortsPublic": "gh codespace ports visibility 80:public -c $CODESPACE_NAME"
+  	},
 
 	// Configure tool-specific properties.
 	"customizations": {
