@@ -76,7 +76,8 @@ CREATE TABLE livro_historico (
 
 CREATE TABLE autor (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL
+    id_usuario INT NOT NULL,
+    CONSTRAINT fk_autor_user FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
 CREATE TABLE autor_historico(

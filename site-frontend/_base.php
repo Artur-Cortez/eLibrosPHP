@@ -1,3 +1,71 @@
+<?php 
+include('config.php');
+// Verificar se carrinho já existe
+$check_cart = "SELECT id FROM carrinho WHERE session_id = ? AND session_id IS NOT NULL";
+$stmt = $conn->prepare($check_cart);
+$stmt->bind_param("s", $_SESSION['session_id']);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Se não existir, criar um novo
+if ($result->num_rows === 0) {
+    $create_cart = "INSERT INTO carrinho (session_id) VALUES (?)";
+    $stmt = $conn->prepare($create_cart);
+    $stmt->bind_param("s", $_SESSION['session_id']);
+    $stmt->execute();
+}
+
+$items = [];
+// Clean up empty session_id carts
+$cleanup = "DELETE FROM carrinho WHERE session_id IS NULL OR session_id = '' OR TRIM(session_id) = ''";
+$conn->query($cleanup);
+
+$update_session = "UPDATE carrinho SET session_id = TRIM(session_id) WHERE session_id != TRIM(session_id)";
+$conn->query($update_session);
+
+// Get cart with trimmed session ID
+$carrinho = "SELECT * FROM carrinho WHERE session_id = TRIM(?)";
+$stmt = $conn->prepare($carrinho);
+$stmt->bind_param("s", $_SESSION['session_id']);
+$stmt->execute();
+
+$result = $stmt->get_result();
+if ($result->num_rows > 0) {
+    $carrinho_id = $result->fetch_assoc()['id'];
+    $_SESSION['carrinho_id'] = $carrinho_id;
+    $itens_carrinho = "SELECT * FROM item_carrinho WHERE carrinho_id = ?";
+    $stmt = $conn->prepare($itens_carrinho);
+    $stmt->bind_param("i", $carrinho_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $livro = "SELECT * FROM livro WHERE id = ?";
+        $stmt = $conn->prepare($livro);
+        $stmt->bind_param("i", $row['livro_id']);
+        $stmt->execute();
+        $livro_result = $stmt->get_result();
+        $livro = $livro_result->fetch_assoc();
+        $items[] = [
+            'id' => $row['id'],
+            'livro_id' => $livro['id'],
+            'titulo' => $livro['titulo'],
+            'capa' => $livro['capa'],
+            'preco' => $livro['preco'],
+            'quantidade' => $row['quantidade']
+        ];
+    }
+}
+
+$total_items = 0;
+foreach ($items as $item) {
+    $total_items += $item['quantidade'];
+}
+
+$_SESSION['carrinho_numero_itens'] = $total_items;
+$_SESSION['carrinho_maior_que_10'] = $total_items >= 10;
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -18,7 +86,7 @@
         <ul class="navbar-ul">
             <li><a class="nav-link-normal" href="index.php">Início</a></li>
             <li><a class="nav-link-normal" href="acervo.php">Acervo</a></li>
-            <?php if (isset($_SESSION['user_id'])): ?>
+            <?php if (isset($_SESSION['cliente_id'])): ?>
                 <li id="dropdown">
                     <div>
                         <div id="perfil">

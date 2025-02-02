@@ -1,17 +1,44 @@
 <?php
-    include('config.php');
-    $livro_id = $_GET['id'];
-    $sql = "SELECT * FROM livro WHERE id = $livro_id";
-    $result = $conn->query($sql);
-    $livro = $result->fetch_assoc();
-
+    
+    // Calculando preço com desconto
     $preco_com_desconto = null;
     if ($livro['desconto'] > 0) {
         $preco_com_desconto = $livro['preco'] - ($livro['preco'] * $livro['desconto'] / 100);
     }
+
+
+    // Obtendo informações do cliente
+    $cliente = null;
+    if (isset($_SESSION['cliente_id'])) {
+        $cliente_id = (int)$_SESSION['cliente_id'];
+        $sql_cliente = "
+            SELECT e.* 
+            FROM cliente c
+            JOIN endereco e ON c.endereco_id = e.id
+            WHERE c.id = ?";
+        $stmt = $conn->prepare($sql_cliente);
+        $stmt->bind_param("i", $cliente_id);
+        $stmt->execute();
+        $result_cliente = $stmt->get_result();
+        $cliente = $result_cliente->fetch_assoc();
+    }
+
+    $sql_autores = " 
+            SELECT u.nome 
+            FROM livro_autor la
+            JOIN autor a ON la.autor_id = a.id
+            JOIN usuario u ON a.id_usuario = u.id
+            WHERE la.livro_id = ?";
+    $stmt = $conn->prepare($sql_autores);
+    $stmt->bind_param("i", $livro_id);
+    $stmt->execute();
+    $result_autores = $stmt->get_result();
+    $autores = [];
+    while ($autor = $result_autores->fetch_assoc()) {
+        $autores[] = $autor['nome'];
+    }
 ?>
 
-<!-- falta passar para cá a variável $preco_com_desconto -->
 <main>
     <section class="livro">
         <figure>
@@ -26,17 +53,7 @@
                 <h2><?php echo $livro['titulo']; ?> <span><?php echo $livro['editora']; ?> - <?php echo $livro['ano_de_publicacao']; ?></span></h2>
                 <p>Escrito por 
                 <?php
-                    $sql_autores = "
-                        SELECT u.nome 
-                        FROM livro_autor la
-                        JOIN autor a ON la.autor_id = a.id
-                        JOIN usuario u ON a.id_usuario = u.id
-                        WHERE la.livro_id = $livro_id";
-                    $result_autores = $conn->query($sql_autores);
-                    $autores = [];
-                    while ($autor = $result_autores->fetch_assoc()) {
-                        $autores[] = $autor['nome'];
-                    }
+                    
                     echo implode(', ', $autores);
                 ?>
                 </p>
@@ -63,17 +80,6 @@
 
             <p><span>Entrega GRÁTIS:</span> Chega entre XX - XX de Mês</p>
 
-            <?php
-                
-                $cliente_id = $_SESSION['cliente_id']; // Supondo que o ID do cliente esteja armazenado na sessão
-                $sql_cliente = "
-                    SELECT e.* 
-                    FROM cliente c
-                    JOIN endereco e ON c.endereco_id = e.id
-                    WHERE c.id = $cliente_id";
-                $result_cliente = $conn->query($sql_cliente);
-                $cliente = $result_cliente->fetch_assoc();
-            ?>
             <p>
                 <img src="static/images/local.png">
                 <?php if ($cliente == null) { ?>
@@ -82,5 +88,24 @@
                     <a href="#">Entregar em <?php echo $cliente['rua'] . ', ' . $cliente['numero'] . ' - ' . $cliente['cidade'] . ', ' . $cliente['estado']; ?></a>
                 <?php } ?>
             </p>
+            <p>Em estoque <span><?php echo $livro['quantidade']; ?> restante(s)</span></p>
+            <div class="quantity-input">
+                <button class="quantity-btn minus">-</button>
+                <input type="number" id="quantity" value="1" min="1" max="99">
+                <button class="quantity-btn plus">+</button>
+            </div>
+            <div class="botoes">
+                <button data-id="<?php echo $livro['id']; ?>" data-action="adicionarAoCarrinho" class="botaoAdicionarAoCarrinho">
+                    <img src="static/images/carrinho.png">
+                    <p>Adicionar</p>
+                </button>
+                <button data-id="<?php echo $livro['id']; ?>" data-action="comprarAgora" class="botaoComprarAgora">Comprar Agora</button>
+
+                <button><img src="static/images/caminhao.png">
+                    <p>Calcular Frete</p>
+                </button>
+                </div>
             </div>
         </div>
+    </section>
+</main>

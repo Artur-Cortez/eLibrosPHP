@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
               //Objeto lidado: Livro
               else { 
                   var quantidadeAdicionada = document.getElementById(`quantity`).value;
-              }   
-              updateUserCart(id, action, quantidadeAdicionada, csrfToken);
+              } 
+              
+              updateUserCart(id, action, quantidadeAdicionada);
           });
       }
       
@@ -31,23 +32,37 @@ document.addEventListener('DOMContentLoaded', () => {
     //Objeto lidado: ItemCarrinho
     document.querySelectorAll('.quantity-btn').forEach(button => {
       button.addEventListener('click', function() {
+          console.log("Quantity button clicked"); 
           const quantityInput = this.parentElement.querySelector('input');
           let currentValue = parseInt(quantityInput.value);
           var action = this.dataset.action;
-          console.log(action);
+          var id = quantityInput.dataset.id;
+          console.log("Quantity input", quantityInput);
+          console.log("Action", action);
+          console.log("Id", id);
+          console.log("Currentvalue", currentValue);
           const max = parseInt(quantityInput.getAttribute('max'));
           const min = parseInt(quantityInput.getAttribute('min'));
   
           if (this.classList.contains('minus') && currentValue > min) {
               quantityInput.value = currentValue - 1;
+            
+              console.log("Minus");
+              console.log(quantityInput.value);
             } else if (this.classList.contains('plus') && currentValue < max) {
               quantityInput.value = currentValue + 1;
+              
+              console.log("Plus");
+              console.log(quantityInput.value);
             }
           
   
           if (action == 'remover' || action == 'adicionar') {
             console.log("Ação de adicionar ou remover uma unidade de livro")
-            updateUserCart(quantityInput.dataset.id, action, quantityInput.value, csrfToken);
+            console.log("Id", id);
+            console.log("Action", action);
+            console.log("Quantity", quantityInput.value);
+            updateUserCart(id, action, quantityInput.value);
           }
           
       });
@@ -65,15 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   
-    function updateUserCart(id, action, quantidadeAdicionada, csrfToken){
-      var url = cartUpdateUrl;
+    function updateUserCart(id, action, quantidadeAdicionada){
+      var url = 'adicionar_carrinho.php';
      
-      //here
+      
       fetch(url, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
-              'X-CSRFToken': csrfToken,
           },
           body: JSON.stringify({'id': id, 'action': action, 'quantidadeAdicionada': quantidadeAdicionada}),
       })
@@ -84,14 +98,20 @@ document.addEventListener('DOMContentLoaded', () => {
       return response.json();
       })
       .then((data) => {
+          
           console.log('Data:', data);
           if (data.redirect) {
               window.location.href = data.url;
           } else {
-              console.log(data.message);
+              
+              console.log("Data message", data.message);
               if (action === 'deletar') {
                   var itemElement = document.querySelector(`button[data-id="${id}"]`).closest('li');
                   itemElement.remove();
+
+  
+
+                  
               }
   
               var cartItemCountElement = document.querySelector('.carrinho-quantidade');

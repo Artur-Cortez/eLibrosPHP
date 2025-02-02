@@ -1,3 +1,11 @@
+<?php
+include('config.php');
+
+
+echo "Current session_id: " . $_SESSION['session_id']; //ok
+
+?>
+
 <section class="banner">
     <p>“Há sonhos que devem permanecer nas gavetas, nos cofres, trancados até o nosso fim. E por isso passíveis de serem sonhados a vida inteira.” - Hilda Hilst</p>
 </section>
