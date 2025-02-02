@@ -52,7 +52,11 @@
     </nav>
 </header>
 <main>
-<?php include($content); ?>
+
+<?php
+
+include($content);
+ ?>
 </main>
 <footer>
     <p>2024 Entregadores. Todos os direitos reservados</p>

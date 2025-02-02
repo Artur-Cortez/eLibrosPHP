@@ -169,8 +169,6 @@ CREATE TABLE livro_genero_literario_historico (
   
 );
 
-
-
 -- CREATE TABLE endereco_historico (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
 --     endereco_id INT NOT NULL,
