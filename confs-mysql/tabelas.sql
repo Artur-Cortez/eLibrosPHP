@@ -223,7 +223,7 @@ CREATE TABLE item_carrinho (
     livro_id INT NOT NULL,
     quantidade INT NOT NULL,
     preco DECIMAL(5, 2) NOT NULL,
-    carrinho_id INT NOT NULL,
+    carrinho_id INT,
     CONSTRAINT fk_item_carrinho_livro FOREIGN KEY (livro_id) REFERENCES livro(id) ON DELETE CASCADE,
     CONSTRAINT fk_item_carrinho_carrinho FOREIGN KEY (carrinho_id) REFERENCES carrinho(id) ON DELETE CASCADE
 );

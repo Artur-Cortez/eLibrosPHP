@@ -110,13 +110,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Link items to order
         foreach ($items as $item) {
+            // probably not being executed
             $stmt = $conn->prepare("INSERT INTO pedido_item (pedido_id, item_id) VALUES (?, ?)");
             $stmt->bind_param("si", $numero_pedido, $item['id']);
+            $stmt->execute();
+
+            // This update is working
+            $stmt = $conn->prepare("UPDATE livro SET qtd_vendidos = qtd_vendidos + ? WHERE id = ?");
+            $stmt->bind_param("ii", $item['quantidade'], $item['livro_id']);
             $stmt->execute();
         }
 
         // Clear cart
-        $stmt = $conn->prepare("DELETE FROM item_carrinho WHERE carrinho_id = ?");
+        $stmt = $conn->prepare("UPDATE item_carrinho SET carrinho_id = NULL WHERE carrinho_id = ?");
         $stmt->bind_param("i", $_SESSION['carrinho_id']);
         $stmt->execute();
 
