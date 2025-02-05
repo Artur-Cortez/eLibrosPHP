@@ -1,9 +1,5 @@
 <?php
 include('config.php');
-
-
-echo "Current session_id: " . $_SESSION['session_id']; //ok
-
 ?>
 
 <section class="banner">

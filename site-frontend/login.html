@@ -19,19 +19,19 @@
         <section class="login">
             <figure><img src="static/images/vetorlogin.png"></figure>
             <div class="barraacesso"></div>
-            <form action="login_acao.php" method="post">
+            <form action="login.php" method="post">
                 <div class="form-group">
                     <label for="username">Email</label>
                     <div class="input-icon">
                         <img src="static/images/icons/user.png" alt="User Icon" class="img-form">
-                        <input type="text" id="username" name="email">
+                        <input type="text" id="username" name="email" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password">Senha</label>
                     <div class="input-icon">
                         <img src="static/images/icons/lock.png" alt="Lock Icon" class="img-form">
-                        <input type="password" id="password" name="password">
+                        <input type="password" id="password" name="password" class="form-control">
                         <img src="static/images/icons/olho.png" alt="Eye Icon" class="eye-icon">
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     <label for="remember" style="font-size: 14px; margin-top: 0em !important;">Lembre-se de mim</label>
                 </div>
                 <button type="submit">Entrar</button>
-                <p>Não possui uma conta? <a href="cadastro.html">Cadastrar</a></p>
+                <p>Não possui uma conta? <a href="signup.php">Cadastrar</a></p>
             </form>
         </section>
     </main>

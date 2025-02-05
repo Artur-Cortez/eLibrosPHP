@@ -1,5 +1,6 @@
 <?php 
 include('config.php');
+include('check_login.php');
 // Verificar se carrinho já existe
 $check_cart = "SELECT id FROM carrinho WHERE session_id = ? AND session_id IS NOT NULL";
 $stmt = $conn->prepare($check_cart);
@@ -127,7 +128,7 @@ include($content);
  ?>
 </main>
 <footer>
-    <p>2024 Entregadores. Todos os direitos reservados</p>
+    <p>© 2024 Entregadores. Todos os direitos reservados</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
